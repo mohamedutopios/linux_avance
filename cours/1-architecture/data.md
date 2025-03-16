@@ -356,3 +356,26 @@ L'anneau -1 est lié à la **virtualisation matérielle** (Intel VT-x, AMD-V) qu
 - **Virtualisation** : Flexibilité et isolation des environnements
 
 Cette architecture robuste fait de Linux un système extrêmement adaptable et sécurisé, largement adopté pour des environnements très variés allant du serveur haute performance aux systèmes embarqués.
+
+
+Les appels système (ou "syscalls") sous Linux sont le mécanisme par lequel les applications en mode utilisateur peuvent interagir avec le noyau pour demander des services, tels que l'accès aux ressources matérielles ou la gestion des processus. Voici quelques points clés :
+
+1. **Interface entre utilisateur et noyau**  
+   - Les appels système fournissent une API standardisée pour que les programmes puissent exécuter des opérations critiques sans avoir besoin d'un accès direct au matériel.  
+   - Cela garantit que les opérations sensibles (comme la lecture/écriture de fichiers, la gestion de la mémoire ou la communication entre processus) sont réalisées de manière sécurisée.
+
+2. **Mécanisme d'invocation**  
+   - Sous Linux, les appels système sont généralement implémentés via des instructions spécifiques du processeur (par exemple, `syscall` sur les architectures x86_64 ou `int 0x80` sur certaines versions plus anciennes).  
+   - Le passage en mode noyau est déclenché, permettant au noyau d'exécuter le code correspondant à l'appel système.
+
+3. **Exemples d'appels système**  
+   - **Gestion des fichiers :** `open`, `read`, `write`, `close`  
+   - **Gestion des processus :** `fork`, `execve`, `waitpid`, `exit`  
+   - **Gestion de la mémoire :** `mmap`, `munmap`  
+   - **Communication inter-processus :** `pipe`, `socket`, `bind`, `listen`, `accept`
+
+4. **Sécurité et stabilité**  
+   - En isolant les applications du matériel et en passant par le noyau pour les opérations sensibles, Linux améliore la sécurité et la stabilité du système.  
+   - Le noyau peut ainsi appliquer des politiques de sécurité, de gestion des ressources et de contrôle d'accès pour éviter les comportements malveillants ou erronés.
+
+En résumé, les appels système sont essentiels pour permettre aux applications de fonctionner efficacement tout en préservant l'intégrité et la sécurité du système d'exploitation.

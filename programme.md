@@ -31,7 +31,6 @@ Exemple de travaux pratiques (à titre indicatif)
 – Présentation du pseudo-système de fichiers /proc
 – Informations contenues dans /proc
 – Modification des paramètres du noyau avec sysctl
-m2iformation.fr 2/4
 – Présentation du pseudo-système de fichiers sysfs
 – Informations contenues dans /sys
 – Utilitaire sysTool
