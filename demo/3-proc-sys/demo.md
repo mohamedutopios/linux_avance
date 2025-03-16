@@ -184,13 +184,144 @@ sudo sysctl -p
 
 ---
 
+Si tu rencontres un problème apt update et aussi systools :  
+
+Voici pourquoi tu rencontres ces erreurs et comment les résoudre clairement étape par étape.
+
+---
+
+## 🚩 **1. Explication claire du problème :**
+
+Tu as deux erreurs distinctes :
+
+### 📍 **Erreur 1 :**  
+```
+E: Unable to locate package systool
+```
+La commande `apt install systool` échoue car sur Debian, l'outil `systool` ne se trouve pas directement sous ce nom de paquet, mais est fourni par le paquet suivant :
+
+- `sysfsutils`
+
+---
+
+## 🚩 **2. Explication de l’erreur "Release file is not valid yet" :**
+
+Cette erreur :
+
+```
+E: Release file is not valid yet (invalid for another 55min 9s).
+```
+
+se produit généralement à cause d'un problème d'horloge système incorrecte sur ta machine.  
+Probablement parce que :
+
+- La date et l'heure sont incorrectes sur ta VM (très fréquent avec des VM, notamment Vagrant ou VirtualBox).
+
+---
+
+## ✅ **Solution simple et efficace en une fois :**
+
+### 📌 **Étape 1 : Vérifie la date et l’heure de ta VM**
+
+Exécute simplement la commande :
+
+```bash
+date
+```
+
+Si la date est incorrecte, tu vas avoir ce genre d’erreur avec `apt`.
+
+---
+
+### ⚙️ **Corriger immédiatement la date de la VM :**
+
+Mets simplement ta date système à jour en une seule commande rapide :
+
+```bash
+sudo apt install ntpdate -y
+sudo timedatectl set-ntp true
+sudo systemctl restart systemd-timesyncd
+```
+
+Ou encore (manuel immédiat si problème persiste) :
+
+```bash
+sudo ntpdate -u pool.ntp.org
+```
+
+Si `ntpdate` n’est pas installé, fais avant :
+
+```bash
+sudo apt install ntpdate
+```
+
+✅ Une fois fait, relance :
+
+```bash
+sudo apt update
+```
+
+Cette erreur disparaîtra immédiatement.
+
+---
+
+## 🚩 **Étape 2 : Installer correctement `systool` (qui est en réalité inclus dans `sysfsutils`) :**
+
+Le paquet `systool` n’existe pas directement sous ce nom. Pour obtenir la commande `systool`, installe :
+
+```bash
+sudo apt install sysfsutils
+```
+
+### Vérifie maintenant que tu peux utiliser `systool` :
+
+```bash
+systool -V
+```
+
+Tu devrais obtenir un résultat comme :
+
+```
+systool version 2.1.1
+```
+
+---
+
+## 🔑 **Résumé simple des étapes complètes à suivre immédiatement :**
+
+```bash
+# Vérifier date
+date
+
+# Corriger date et heure automatiquement (solution rapide)
+sudo apt install -y ntpdate
+sudo ntpdate -u pool.ntp.org
+```
+
+Puis installer `systool` correctement :
+
+```bash
+sudo apt update
+sudo apt install -y sysfsutils
+```
+
+---
+
+## 💡 **Synthèse (pour éviter définitivement tes erreurs) :**
+
+- L'erreur "`Release file not valid yet`" vient toujours d'une date/heure incorrecte.
+- La commande `systool` se trouve dans le paquet `sysfsutils`, et non `systool`.
+
+Ces deux actions règleront définitivement ton problème en quelques secondes.
+
+
 # 🔍 **4. Utilitaire : sysTool**
 
 `sysTool` est un utilitaire permettant de visualiser et de diagnostiquer facilement les périphériques et modules dans `/sys`.
 
 ### ▶️ **Installation :**
 ```bash
-sudo apt install systool
+sudo apt install sysfsutils
 ```
 
 ### ▶️ **Utilisation concrète :**

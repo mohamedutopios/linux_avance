@@ -46,9 +46,14 @@ Ton pilote sera immédiatement disponible dès le démarrage du noyau.
 
 Exemple précis : **Pilote Wi-Fi Realtek (rtl8821ce)** (souvent absent par défaut) :
 
+#**Exemple 2 : Pilote compilé en Module (externe)**
+
+Exemple précis : **Pilote Wi-Fi Realtek (rtl8821ce)** (souvent absent par défaut) :
+
 1. Installe les outils requis pour la compilation :
 ```bash
-sudo apt install build-essential linux-headers-$(uname -r)
+sudo apt update
+sudo apt install -y build-essential linux-headers-$(uname -r) git dkms
 ```
 
 2. Télécharge le pilote :
@@ -59,14 +64,21 @@ cd rtl8821ce
 
 3. Compile et installe comme module :
 ```bash
+make clean
 make
 sudo make install
+sudo depmod -a
 sudo modprobe 8821ce
 ```
 
 4. Vérifie le chargement du pilote :
 ```bash
 lsmod | grep 8821ce
+```
+
+(Facultatif) Vérifie les messages du noyau :
+```bash
+sudo dmesg | grep 8821ce
 ```
 
 Le pilote sera disponible à chaque démarrage.
