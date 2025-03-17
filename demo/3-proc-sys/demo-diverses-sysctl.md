@@ -47,6 +47,8 @@ ping -c 3 localhost
 - Active blocage ping :
 ```bash
 sudo sysctl -w net.ipv4.icmp_echo_ignore_all=1
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+
 ```
 
 - Vérifie :
@@ -58,6 +60,8 @@ ping -c 3 localhost
 - Désactive à nouveau :
 ```bash
 sudo sysctl -w net.ipv4.icmp_echo_ignore_all=0
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=0
+
 ```
 
 - Vérifie de nouveau :
